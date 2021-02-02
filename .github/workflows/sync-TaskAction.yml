@@ -1,0 +1,31 @@
+# File: .github/workflows/repo-sync.yml
+name: sync-TaskAction
+on:
+  schedule:
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+  watch:
+    types: started
+  repository_dispatch:
+    types: sync-TaskAction
+jobs:
+  repo-sync:
+    env:
+      PAT: ${{ secrets.PAT || github.event.client_payload.PAT }} #此处PAT需要申请，教程详见：https://www.jianshu.com/p/bb82b3ad1d11
+      TZ: Asia/shanghai
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+     
+      - name: sync jdCode	
+        uses: repo-sync/github-sync@v2	
+        if: env.PAT	
+        with:	
+          source_repo: "https://github.com/1217079729/TaskAction.git"	
+          source_branch: "jd_code"	
+          destination_branch: "my"	
+          github_token: ${{ secrets.PAT || github.event.client_payload.PAT }}
+
