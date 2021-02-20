@@ -24,8 +24,8 @@ jobs:
         uses: repo-sync/github-sync@v2	
         if: env.PAT	
         with:	
-          source_repo: "https://github.com/1217079729/TaskAction.git"	
-          source_branch: "jd_code"	
+          source_repo: "https://github.com/pxylen/dog_jd.git"	
+          source_branch: "master"	
           destination_branch: "my"	
           github_token: ${{ secrets.PAT || github.event.client_payload.PAT }}
 
